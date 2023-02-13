@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react"
+import { Routes, Route, useLocation } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { initializeCountries } from "./reducers/countryReducer"
+import Countries from "./components/Countries"
+import Country from "./components/Country"
+import Loading from "./components/Loading"
 
-function App() {
+const App = () => {
+  const dispatch = useDispatch()
+  const location = useLocation()
+  const background = location.state && location.state.background
+
+  useEffect(() => {
+    dispatch(initializeCountries())
+  }, [dispatch])
+
+  const loading = useSelector((state) => state.countries).length === 0
+
+  if (loading) return <Loading />
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <Routes location={background || location}>
+        <Route path="/" element={<Countries />}>
+          <Route path=":name" element={<Country />} />
+        </Route>
+      </Routes>
+      {background && (
+        <Routes>
+          <Route path="/:name" element={<Country />} />
+        </Routes>
+      )}
+    </>
+  )
 }
 
-export default App;
+export default App

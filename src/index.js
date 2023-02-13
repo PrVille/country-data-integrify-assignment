@@ -1,15 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { sendToVercelAnalytics } from './vitals';
+import React from "react"
+import ReactDOM from 'react-dom/client'
+import App from "./App"
+import { BrowserRouter as Router } from "react-router-dom"
+import { Provider } from "react-redux"
+import store from "./store"
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
-
-reportWebVitals(sendToVercelAnalytics);
+ReactDOM.createRoot(document.getElementById("root")).render(
+    <Router>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </Router>
+)
