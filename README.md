@@ -1,3 +1,15 @@
+# Countries App
+
+This Countries react application was created for Integrify assignment.
+The application fetches countries data from an api and displays them as a table. Each country can be clicked for a new page that shows details of that country.
+
+<img src="./public/countries-demo.gif" alt="Countries" width="100%">
+
+_Live demo https://country-data-integrify-assignment.vercel.app/_
+
+### Keywords
+React.js, Javascript, REST API, Material UI, Redux, Cypress, React Router, Axios
+
 # Create React App
 
 This directory is a brief example of a [Create React App](https://github.com/facebook/create-react-app) site that can be deployed to Vercel with zero configuration.
