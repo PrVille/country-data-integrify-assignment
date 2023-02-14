@@ -2,6 +2,7 @@ import { useMemo, useState } from "react"
 import { useSelector } from "react-redux"
 import { useLocation, useNavigate } from "react-router-dom"
 import { selectCountries } from "../reducers/countryReducer"
+import { useDebounce } from 'use-debounce'
 
 import {
   Box,
@@ -154,6 +155,7 @@ const Countries = () => {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [searchQuery, setSearchQuery] = useState("")
+  const [searchQueryDebounced] = useDebounce(searchQuery, 500)
   const [order, setOrder] = useState("asc")
 
   const onChangeSearch = (event) => {
@@ -171,16 +173,15 @@ const Countries = () => {
   }
 
   const toggleOrder = () => {
-    const isAsc = order === "asc"
-    setOrder(isAsc ? "desc" : "asc")
+    setOrder(order === "asc" ? "desc" : "asc")
   }
 
   const filteredCountries = useMemo(
     () =>
       countries.filter((country) =>
-        country.name.common.toLowerCase().includes(searchQuery.toLowerCase())
+        country.name.common.toLowerCase().includes(searchQueryDebounced.toLowerCase())
       ),
-    [countries, searchQuery]
+    [countries, searchQueryDebounced]
   )
 
   const sortedCountries = useMemo(
@@ -199,7 +200,7 @@ const Countries = () => {
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%" }}>
         <TableAppBar onChangeSearch={onChangeSearch} />
-        <TableContainer sx={{ maxHeight: 625 }}>
+        <TableContainer sx={{ height: 650 }}>
           <Table stickyHeader>
             <TableHeader order={order} toggleOrder={toggleOrder} />
             <TableBody>
@@ -216,7 +217,7 @@ const Countries = () => {
                       }
                       key={i}
                     >
-                      <TableCell>
+                      <TableCell style={{ width: 200 }}>
                         <img
                           src={country.flags.png}
                           alt={country.flags.alt}

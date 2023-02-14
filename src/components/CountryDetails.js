@@ -42,10 +42,9 @@ const HighlightedText = ({ content }) => {
   )
 }
 
-const Country = () => {
+const CountryDetails = () => {
   const { name } = useParams()
   const country = useCountry(name)
-
   const navigate = useNavigate()
   const [expanded, setExpanded] = useState(false)
 
@@ -110,7 +109,7 @@ const Country = () => {
           </IconButton>
           <IconButton
             onClick={() =>
-              window.open(country.maps.googleMaps, "_blank", "noreferrer")
+              window.open(country.maps.googleMaps)
             }
           >
             <LocationOnIcon />
@@ -148,4 +147,4 @@ const Country = () => {
   )
 }
 
-export default Country
+export default CountryDetails
